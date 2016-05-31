@@ -47,7 +47,7 @@ public class SplitStrings {
 			int upperCaseCharsNumber = 0;
 			for(int i = 0; i < word.length(); i++) {
 				int c = word.charAt(i);
-				if (c >= 65 && c <= 90) upperCaseCharsNumber++; // count number of upperCase char in a word
+				if (c >= 65 && c <= 90) upperCaseCharsNumber++; // counts how many of upperCase char in a word
 			}
 			if (upperCaseCharsNumber <= 1 ) retList.add(word.toLowerCase());
 			else retList.add(word);}
