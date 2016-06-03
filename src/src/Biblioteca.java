@@ -12,7 +12,7 @@ public class Biblioteca {
 	public Biblioteca(String nome) {
 		_nome = nome;
 		_repositorioLivros = new TreeSet<Livro>();
-		_usuarios = new HashSet<Usuario>();
+		this.usuarios = new HashSet<Usuario>();
 	}
 
 	public void adicionaLivroCatalogo(Livro livro)
@@ -25,21 +25,22 @@ public class Biblioteca {
 					"--->Não pode adicionar livro inexistente!");
 	}
 
-	public void registraUsuario(String nome)
-			throws UsuarioJaRegistradoException, UsuarioComNomeVazioException,
-			UsuarioInexistenteException {
-		if (nome != null) {
-			if (!nome.isEmpty()) {
+	public void registraUsuario(String nome) throws UsuarioJaRegistradoException,
+													UsuarioComNomeVazioException,
+													UsuarioInexistenteException
+	{
+		if (nome == null) throw new UsuarioInexistenteException("--->Não pode registrar usuario inexistente!");
+		else 	{
+			if (nome.isEmpty()) throw new UsuarioComNomeVazioException("--->Não pode registrar usuario com nome vazio!");
+			else
+			{
 				Usuario usuario = new Usuario(nome);
-				if (!_usuarios.contains(usuario)) {
-					_usuarios.add(usuario);
-				} else
+				if (this.usuarios.contains(usuario))
 					throw new UsuarioJaRegistradoException("--->Já existe usuário com o nome \""
-							+ nome + "\"! Use outro nome!");
-			} else
-				throw new UsuarioComNomeVazioException("--->Não pode registrar usuario com nome vazio!");
-		} else
-			throw new UsuarioInexistenteException("--->Não pode registrar usuario inexistente!");
+															+ nome + "\"! Use outro nome!");
+				else this.usuarios.add(usuario); 
+			} 
+		}
 	}
 
 	public void emprestaLivro(Livro livro, Usuario usuario)
@@ -113,7 +114,7 @@ public class Biblioteca {
 		Usuario usuarioAchado = null;
 		if ((nome != null)) {
 			if (!nome.isEmpty()) {
-				Iterator<Usuario> iter = _usuarios.iterator();
+				Iterator<Usuario> iter = this.usuarios.iterator();
 				while ((iter.hasNext() == true) && (usuarioAchado == null)) {
 					Usuario usuario = (Usuario) iter.next();
 					String oNome = usuario.getNome();
@@ -167,8 +168,8 @@ public class Biblioteca {
 	public void exibeUsuarios() {
 		System.out.println("Biblioteca: " + _nome);
 		System.out.println(">>>Usuários da Biblioteca<<<");
-		if (_usuarios.size() != 0) {
-			Iterator<Usuario> iter = _usuarios.iterator();
+		if (this.usuarios.size() != 0) {
+			Iterator<Usuario> iter = this.usuarios.iterator();
 			while (iter.hasNext() == true) {
 				Usuario usuario = (Usuario) iter.next();
 				usuario.exibe();
@@ -189,11 +190,11 @@ public class Biblioteca {
 	}
 
 	public int sizeUsuarios() {
-		return _usuarios.size();
+		return this.usuarios.size();
 	}
 
 	private String _nome;
 	private int _nrUnico = 0; // _nrUnico > zero!
 	private TreeSet<Livro> _repositorioLivros;
-	private HashSet<Usuario> _usuarios;
+	private HashSet<Usuario> usuarios;
 }
